@@ -6,3 +6,6 @@
 # Python cache files
 *.pyc
 __pycache__
+
+# Sqlite
+db.sqlite3
