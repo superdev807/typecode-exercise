@@ -9,7 +9,7 @@ class Blog(models.Model):
     location = models.CharField(max_length=50, blank=False)
     subtitle = models.CharField(max_length=255, blank=False)
     summary = models.TextField(blank=False)
-    body = models.TextField(blank=False)
+    content = models.TextField(blank=False)
     tags = models.CharField(max_length=255, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
