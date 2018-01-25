@@ -1,4 +1,7 @@
 from django.db import models
+from django.utils.text import slugify
+
+from .utils import random_word
 
 
 class Blog(models.Model):
@@ -16,3 +19,26 @@ class Blog(models.Model):
 
     class Meta:
         ordering = ('id',)
+
+    def __str__(self):
+        return self.title
+
+    def _get_unique_slug(self):
+        slug = slugify(self.title)
+        unique_slug = slug
+        queryset = Blog.objects.all()
+
+        if self.pk:
+            queryset = queryset.exclude(pk=self.pk)
+
+        while queryset.filter(slug=unique_slug).exists():
+            unique_slug = '{}-{}'.format(slug, random_word(5))
+
+        return unique_slug
+
+    def save(self, *args, **kwargs):
+        """Override save()"""
+
+        self.slug = self._get_unique_slug()
+
+        super(Blog, self).save()
