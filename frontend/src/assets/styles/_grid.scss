@@ -1,0 +1,108 @@
+// Var
+$cols: 8;
+$xs-min: 30rem;
+$sm-min: 48rem;
+$md-min: 64rem;
+$lg-min: 75rem;
+
+.container {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.row {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  &.reverse {
+    flex-direction: row-reverse;
+  }
+}
+
+// Mixin
+@mixin col {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+}
+
+@mixin define-screen($cols, $screen) {
+  .col-#{$screen} {
+    @include col;
+
+    flex-grow: 1;
+    flex-basis: 0;
+    max-width: 100%;
+  }
+
+  @for $i from 1 through $cols {
+    .col-#{$screen}-#{$i} {
+      @include col;
+
+      flex-basis: #{100% / $cols * $i};
+      max-width: #{100% / $cols * $i};
+    }
+
+    .col-#{$screen}-offset-#{$i - 1} {
+      margin-left: #{100% / $cols * ($i - 1)};
+    }
+  }
+
+  .center-#{$screen} {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .end-#{$screen} {
+    justify-content: flex-end;
+    text-align: end;
+  }
+
+  .top-#{$screen} {
+    align-items: flex-start;
+  }
+
+  .middle-#{$screen} {
+    align-items: center;
+  }
+
+  .bottom-#{$screen} {
+    align-items: flex-end;
+  }
+
+  .around-#{$screen} {
+    justify-content: space-around;
+  }
+
+  .between-#{$screen} {
+    justify-content: space-between;
+  }
+}
+
+@include define-screen($cols, 'xs');
+
+@media only screen and (min-width: $sm-min) {
+  .container {
+    width: $sm-min;
+  }
+
+  @include define-screen($cols, 'sm');
+}
+
+@media only screen and (min-width: $md-min) {
+  .container {
+    width: $md-min;
+  }
+
+  @include define-screen($cols, 'md');
+}
+
+@media only screen and (min-width: $lg-min) {
+  .container {
+    width: $lg-min;
+  }
+
+  @include define-screen($cols, 'lg');
+}
