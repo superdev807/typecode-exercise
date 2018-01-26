@@ -78,6 +78,9 @@ export default {
   background-size: 125% 1000px;
   background-position: center -100px;
   background-repeat: no-repeat;
+  margin-bottom: 150px;
+  margin-left: -70px;
+  margin-right: -70px;
 
   .tc-menu {
     position: absolute;
