@@ -2,7 +2,7 @@
   <div id="app">
     <tc-header></tc-header>
 
-    <div class="body">
+    <div class="content">
       <div class="container-fluid">
         <router-view/>
       </div>
@@ -17,7 +17,7 @@ export default {
 </script>
 
 <style style="scss">
-.body {
+.content {
   margin: 0 70px;
 }
 </style>
