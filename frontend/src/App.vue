@@ -1,8 +1,6 @@
 <template>
   <div id="app">
-    <div class="header">
-
-    </div>
+    <tc-header></tc-header>
 
     <div class="body">
       <div class="container-fluid">
@@ -19,14 +17,6 @@ export default {
 </script>
 
 <style style="scss">
-.header {
-  height: 800px;
-  background-image: url('./assets/images/background.jpg');
-  background-size: 125% 125%;
-  background-position: center center;
-  background-repeat: no-repeat;
-}
-
 .body {
   margin: 0 70px;
 }
