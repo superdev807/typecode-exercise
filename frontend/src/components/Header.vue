@@ -5,17 +5,69 @@
     </div>
 
     <div class="tc-title-back-wrap">
-      <div class="tc-title-back">Are we out of the woods yet?</div>
+      <div class="tc-title-back">{{ title }}</div>
     </div>
 
     <div class="tc-title-text-wrap">
-      <div class="tc-title-text">Are we out of the woods yet?</div>
+      <div class="tc-title-text">{{ title }}</div>
     </div>
+
+    <input
+      v-show="editable"
+      placeholder="Enter title"
+      v-model="titleInEdit"
+      @input="debouncedInput"
+      @keyup.esc="cancelEdit"
+      @blur="cancelEdit"
+      @keydown.enter="finishEdit"
+    >
   </div>
 </template>
 
 <script>
-export default {}
+import debounce from 'lodash/debounce'
+
+export default {
+  props: {
+    title: String,
+    slug: String,
+    editable: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  data() {
+    return {
+      inEdit: false,
+      titleInEdit: '',
+      slugInEdit: '',
+    }
+  },
+  computed: {},
+  methods: {
+    debouncedInput: debounce(e => {
+      const value = e.target.value
+    }, 1000),
+
+    startEdit() {
+      if (this.editable) {
+        this.inEdit = true
+        this.titleInEdit = this.title
+        this.slugInEdit = this.slug
+      }
+    },
+
+    cancelEdit() {
+      this.inEdit = false
+    },
+
+    finishEdit() {
+      this.inEdit = false
+
+      this.$emit('changed', this.titleInEdit)
+    },
+  },
+}
 </script>
 
 <style lang="scss" scoped>
