@@ -4,22 +4,10 @@
 
     <div class="content">
       <div class="row">
-        <div class="col-xs-4 col-xs-offset-1">
+        <div class="col-xs-7 col-xs-offset-1">
           <ul>
-            <li>
-              <router-link :to="{ name: 'Blog', params: { slug: 'slug-1' }}">Blog 1</router-link>
-            </li>
-            <li>
-              <router-link :to="{ name: 'Blog', params: { slug: 'slug-2' }}">Blog 2</router-link>
-            </li>
-            <li>
-              <router-link :to="{ name: 'Blog', params: { slug: 'slug-3' }}">Blog 3</router-link>
-            </li>
-            <li>
-              <router-link :to="{ name: 'Blog', params: { slug: 'slug-4' }}">Blog 4</router-link>
-            </li>
-            <li>
-              <router-link :to="{ name: 'Blog', params: { slug: 'slug-5' }}">Blog 5</router-link>
+            <li v-for="{slug, title, id} in blogs" :key="id">
+              <router-link :to="{ name: 'Blog', params: { slug }}">{{ title }}</router-link>
             </li>
           </ul>
         </div>
@@ -29,7 +17,13 @@
 </template>
 
 <script>
-export default {}
+import { mapGetters } from 'vuex'
+
+export default {
+  computed: {
+    ...mapGetters(['blogs']),
+  },
+}
 </script>
 
 <style lang="scss" scoped>
