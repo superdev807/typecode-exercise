@@ -26,6 +26,10 @@
                 #{{ tag }}
               </div>
             </div>
+
+            <div class="back-button">
+              <a href="#" @click="goBack">Back</a>
+            </div>
           </div>
         </div>
         <div class="col-xs-5">
@@ -89,6 +93,10 @@ export default {
         this.$router.replace({ name: 'Blog', params: { slug } })
       })
     },
+
+    goBack() {
+      this.$router.go(-1)
+    },
   },
 }
 </script>
@@ -118,6 +126,10 @@ export default {
       margin-bottom: 0.5rem;
       text-transform: uppercase;
     }
+  }
+
+  .back-button {
+    font-size: 1rem;
   }
 }
 
