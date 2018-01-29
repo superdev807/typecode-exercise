@@ -7,7 +7,7 @@
   </div>
 
   <div v-if="status.success">
-    <tc-header :title="blog.title" editable />
+    <tc-header :title="blog.title" :slug="blog.slug" editable />
 
     <div class="blog-content">
       <div class="row">
@@ -29,16 +29,16 @@
           </div>
         </div>
         <div class="col-xs-5">
-            <p>
-              <span class="blog-location">
-                {{ blog.location }}
-              </span>
-              <span v-html="blog.summary"></span>
-            </p>
+          <p>
+            <span class="blog-location">
+              {{ blog.location }}
+            </span>
+            <span v-html="blog.summary"></span>
+          </p>
 
-            <h2 class="blog-subtitle">{{ blog.subtitle }}</h2>
+          <h2 class="blog-subtitle">{{ blog.subtitle }}</h2>
 
-            <p v-html="blog.content"></p>
+          <p v-html="blog.content"></p>
         </div>
       </div>
     </div>
