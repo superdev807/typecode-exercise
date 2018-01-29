@@ -7,10 +7,12 @@ import router from './router'
 import store from './store'
 
 import Header from './components/Header'
+import Loading from './components/Loading'
 
 import './assets/styles/main.scss'
 
 Vue.component('tc-header', Header)
+Vue.component('tc-loading', Loading)
 
 Vue.config.productionTip = false
 

@@ -1,8 +1,6 @@
 <template>
 <div class="tc-blog">
-  <div v-if="status.loading" class="loading">
-    Loading...
-  </div>
+  <tc-loading v-if="status.loading" />
 
   <div v-if="status.error" class="error">
     {{ status.error }}
