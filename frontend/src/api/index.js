@@ -8,6 +8,10 @@ export const getBlogs = () => {
   return client.get(`blogs/`)
 }
 
+export const getBlog = payload => {
+  return client.get(`blogs/${payload.slug}/`)
+}
+
 export const updateBlog = payload => {
-  return client.patch(`blogs/${payload.id}/`, payload)
+  return client.patch(`blogs/${payload.slug}/`, payload)
 }

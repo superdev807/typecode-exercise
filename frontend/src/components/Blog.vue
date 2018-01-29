@@ -1,26 +1,28 @@
 <template>
 <div class="tc-blog">
-  <tc-header title="Are we out of the woods yet?" />
+  <div v-if="status.loading" class="loading">
+    Loading...
+  </div>
 
-  <div class="content">
-    <div class="row">
-      <div class="col-xs-8
-                  col-sm-6
-                  col-md-4
-                  col-lg-3">
-          <p>
-            Nunc eu ullamcorper orci. Quisque eget odio ac lectus vestibulum faucibus eget in metus. In pellentesque faucibus vestibulum. Nulla at nulla justo, eget luctus tortor. Nulla facilisi. Duis aliquet egestas purus in blandit. Curabitur vulputate, ligula lacinia scelerisque tempor, lacus lacus ornare ante, ac egestas est urna sit amet arcu. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed molestie augue sit amet leo consequat posuere.
-            <br/><br/>
-            Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Proin vel ante a orci tempus eleifend ut et magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus luctus urna sed urna ultricies ac tempor dui sagittis. In condimentum facilisis porta. Sed nec diam eu diam mattis viverra. Nulla fringilla, orci ac euismod semper, magna diam porttitor mauris, quis sollicitudin sapien justo in libero. Vestibulum mollis mauris enim.
-          </p>
+  <div v-if="status.error" class="error">
+    {{ status.error }}
+  </div>
 
-          <h2>Looking at it now, last December. We were built to fall apart. Then fall back together.</h2>
+  <div v-if="status.success">
+    <tc-header :title="blog.title" />
 
-          <p>
-            Nunc eu ullamcorper orci. Quisque eget odio ac lectus vestibulum faucibus eget in metus. In pellentesque faucibus vestibulum. Nulla at nulla justo, eget luctus tortor. Nulla facilisi. Duis aliquet egestas purus in blandit. Curabitur vulputate, ligula lacinia scelerisque tempor, lacus lacus ornare ante, ac egestas est urna sit amet arcu. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed molestie augue sit amet leo consequat posuere.
-            <br/><br/>
-            Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Proin vel ante a orci tempus eleifend ut et magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus luctus urna sed urna ultricies ac tempor dui sagittis. In condimentum facilisis porta. Sed nec diam eu diam mattis viverra. Nulla fringilla, orci ac euismod semper, magna diam porttitor mauris, quis sollicitudin sapien justo in libero. Vestibulum mollis mauris enim.
-          </p>
+    <div class="content">
+      <div class="row">
+        <div class="col-xs-8
+                    col-sm-6
+                    col-md-4
+                    col-lg-3">
+            <p v-html="blog.summary"></p>
+
+            <h2>{{ blog.subtitle }}</h2>
+
+            <p v-html="blog.content"></p>
+        </div>
       </div>
     </div>
   </div>
@@ -28,12 +30,25 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
-  name: 'HelloWorld',
-  data() {
-    return {
-      msg: 'Welcome to Your Vue.js App',
-    }
+  computed: {
+    ...mapGetters(['blog', 'status']),
+  },
+  created() {
+    this.fetch()
+  },
+  watch: {
+    $route: 'fetch',
+  },
+  methods: {
+    fetch() {
+      const { slug } = this.$route.params
+
+      this.getBlog({ slug })
+    },
+    ...mapActions(['getBlog']),
   },
 }
 </script>
