@@ -7,7 +7,7 @@
   </div>
 
   <div v-if="status.success">
-    <tc-header :title="blog.title" :slug="blog.slug" editable />
+    <tc-header :title="blog.title" :slug="blog.slug" editable @changed="onTitleChange"/>
 
     <div class="blog-content">
       <div class="row">
@@ -75,18 +75,30 @@ export default {
     $route: 'fetch',
   },
   methods: {
+    ...mapActions(['getBlog', 'updateBlog']),
+
     fetch() {
       const { slug } = this.$route.params
 
       this.getBlog({ slug })
     },
-    ...mapActions(['getBlog']),
+
+    onTitleChange(title) {
+      this.updateBlog({ ...this.blog, title }).then(({ slug }) => {
+        // Simply replace the url without reloading
+        this.$router.replace({ name: 'Blog', params: { slug } })
+      })
+    },
   },
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
+.error {
+  color: red;
+}
+
 .blog-info {
   padding-right: 30%;
   font-family: Futura, Arial, Helvetica, sans-serif;

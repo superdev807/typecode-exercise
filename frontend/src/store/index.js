@@ -74,11 +74,15 @@ const actions = {
   getBlogs({ commit }) {
     commit('LOADING')
 
-    api
+    return api
       .getBlogs()
       .then(res => {
-        commit('SET_BLOGS', res.data)
+        const blogs = res.data
+
         commit('SUCCESS')
+        commit('SET_BLOGS', blogs)
+
+        return blogs
       })
       .catch(e => {
         commit('ERROR', e.response.data)
@@ -88,11 +92,15 @@ const actions = {
   getBlog({ commit }, payload) {
     commit('LOADING')
 
-    api
+    return api
       .getBlog(payload)
       .then(res => {
+        const blog = res.data
+
         commit('SUCCESS')
-        commit('SET_BLOG', res.data)
+        commit('SET_BLOG', blog)
+
+        return blog
       })
       .catch(e => {
         commit('ERROR', e.response.data)
@@ -106,11 +114,15 @@ const actions = {
   updateBlog({ commit, dispatch }, payload) {
     commit('LOADING')
 
-    api
+    return api
       .updateBlog(payload)
       .then(res => {
+        const blog = res.data
+
         commit('SUCCESS')
-        commit('SET_BLOG', res.data)
+        commit('SET_BLOG', blog)
+
+        return blog
       })
       .catch(e => {
         commit('ERROR', e.response.data)

@@ -42,6 +42,7 @@
 
 <script>
 import debounce from 'lodash/debounce'
+import slugify from 'slugify'
 
 export default {
   props: {
@@ -60,9 +61,15 @@ export default {
     }
   },
   methods: {
-    debouncedInput: debounce(e => {
-      // const value = e.target.value
-    }, 1000),
+    debouncedInput: debounce(function(e) {
+      const value = e.target.value
+
+      this.titleInEdit = value
+      this.slugInEdit = slugify(value, {
+        remove: /[.]/,
+        lower: true,
+      })
+    }, 100),
 
     startEdit() {
       if (this.editable) {
