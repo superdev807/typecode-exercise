@@ -2,9 +2,19 @@
 
 > A Vue.js project
 
+## Run
+
+```bash
+# install dependencies
+npm install
+
+# serve with hot reload at localhost:8080
+npm start
+```
+
 ## Build Setup
 
-``` bash
+```bash
 # install dependencies
 npm install
 
