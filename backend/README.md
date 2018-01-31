@@ -15,6 +15,8 @@ $ cd backend
 
 $ pipenv install
 
+$ pipenv shell
+
 $ python manage.py migrate
 
 $ python manage.py loaddata blogs/fixtures/blogs_blogs.json
