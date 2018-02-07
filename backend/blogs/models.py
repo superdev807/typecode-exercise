@@ -1,7 +1,6 @@
 from django.db import models
-from django.utils.text import slugify
 
-from .utils import random_word
+from .utils import get_uniq_slug
 
 
 class Blog(models.Model):
@@ -24,17 +23,7 @@ class Blog(models.Model):
         return self.title
 
     def _get_unique_slug(self):
-        slug = slugify(self.title)
-        unique_slug = slug
-        queryset = Blog.objects.all()
-
-        if self.pk:
-            queryset = queryset.exclude(pk=self.pk)
-
-        while queryset.filter(slug=unique_slug).exists():
-            unique_slug = '{}-{}'.format(slug, random_word(5))
-
-        return unique_slug
+        return get_uniq_slug(Blog, self.title, self.pk)
 
     def save(self, *args, **kwargs):
         """Override save()"""
