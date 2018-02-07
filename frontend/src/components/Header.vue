@@ -95,7 +95,10 @@ export default {
       }
 
       this.inEdit = false;
-      this.$emit('changed', this.titleInEdit);
+
+      if (this.titleInEdit !== this.title) {
+        this.$emit('changed', this.titleInEdit);
+      }
     },
   },
 };
