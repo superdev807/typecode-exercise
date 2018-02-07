@@ -22,6 +22,7 @@
         placeholder="Enter title"
         v-model="titleInEdit"
         class="tc-title-input"
+        :class="{ empty: isTitleEmpty }"
         @input="debouncedInput"
         @keyup.esc="cancelEdit"
         @keydown.enter="finishEdit"
@@ -41,8 +42,8 @@
 </template>
 
 <script>
-import debounce from 'lodash/debounce'
-import slugify from 'slugify'
+import debounce from 'lodash/debounce';
+import slugify from 'slugify';
 
 export default {
   props: {
@@ -58,38 +59,46 @@ export default {
       inEdit: false,
       titleInEdit: '',
       slugInEdit: '',
-    }
+    };
+  },
+  computed: {
+    isTitleEmpty() {
+      return this.inEdit && this.titleInEdit === '';
+    },
   },
   methods: {
     debouncedInput: debounce(function(e) {
-      const value = e.target.value
+      const value = e.target.value;
 
-      this.titleInEdit = value
+      this.titleInEdit = value;
       this.slugInEdit = slugify(value, {
         remove: /[.]/,
         lower: true,
-      })
+      });
     }, 100),
 
     startEdit() {
       if (this.editable) {
-        this.inEdit = true
-        this.titleInEdit = this.title
-        this.slugInEdit = this.slug
+        this.inEdit = true;
+        this.titleInEdit = this.title;
+        this.slugInEdit = this.slug;
       }
     },
 
     cancelEdit() {
-      this.inEdit = false
+      this.inEdit = false;
     },
 
     finishEdit() {
-      this.inEdit = false
+      if (this.titleInEdit === '') {
+        return;
+      }
 
-      this.$emit('changed', this.titleInEdit)
+      this.inEdit = false;
+      this.$emit('changed', this.titleInEdit);
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -187,7 +196,20 @@ export default {
       width: 100%;
 
       &:focus {
-        outline: none;
+        color: #495057;
+        background-color: #fff;
+        border-color: #80bdff;
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+      }
+
+      &.empty {
+        border-color: #dc3545;
+
+        &:focus {
+          border-color: #dc3545;
+          box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+        }
       }
     }
 
