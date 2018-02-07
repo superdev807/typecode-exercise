@@ -42,8 +42,9 @@
 </template>
 
 <script>
-import debounce from 'lodash/debounce';
-import slugify from 'slugify';
+import debounce from 'lodash/debounce'
+
+import { getSlug } from '@/api'
 
 export default {
   props: {
@@ -59,49 +60,53 @@ export default {
       inEdit: false,
       titleInEdit: '',
       slugInEdit: '',
-    };
+    }
   },
   computed: {
     isTitleEmpty() {
-      return this.inEdit && this.titleInEdit === '';
+      return this.inEdit && this.titleInEdit === ''
     },
   },
   methods: {
     debouncedInput: debounce(function(e) {
-      const value = e.target.value;
+      const value = e.target.value
 
-      this.titleInEdit = value;
-      this.slugInEdit = slugify(value, {
-        remove: /[.]/,
-        lower: true,
-      });
+      this.titleInEdit = value
+
+      if (this.titleInEdit === this.title) {
+        this.slugInEdit = this.slug
+      } else {
+        getSlug({ title: this.titleInEdit }).then(response => {
+          this.slugInEdit = response.data.slug
+        })
+      }
     }, 100),
 
     startEdit() {
       if (this.editable) {
-        this.inEdit = true;
-        this.titleInEdit = this.title;
-        this.slugInEdit = this.slug;
+        this.inEdit = true
+        this.titleInEdit = this.title
+        this.slugInEdit = this.slug
       }
     },
 
     cancelEdit() {
-      this.inEdit = false;
+      this.inEdit = false
     },
 
     finishEdit() {
       if (this.titleInEdit === '') {
-        return;
+        return
       }
 
-      this.inEdit = false;
+      this.inEdit = false
 
       if (this.titleInEdit !== this.title) {
-        this.$emit('changed', this.titleInEdit);
+        this.$emit('changed', this.titleInEdit)
       }
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

@@ -15,3 +15,7 @@ export const getBlog = payload => {
 export const updateBlog = payload => {
   return client.patch(`blogs/${payload.slug}/`, payload)
 }
+
+export const getSlug = payload => {
+  return client.post(`blogs/slug/`, payload)
+}
